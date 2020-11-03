@@ -1,2 +1,0 @@
-String[] members = ['fuse', 'jboss', 'jboss-http', 'jenkins-ci', 'sonatype-snapshots', 'sonatype-staging', 'maven-central', 'maven-public', 'maven-releases', 'maven-snapshots', 'spring-milestone', 'spring-release', 'fuse-ea', 'eclipselink', 'jcenter', 'servicemix']
-repository.createMavenGroup('public', members)
