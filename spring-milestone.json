@@ -1,5 +1,0 @@
-{
-  "name": "spring-milestone",
-  "type": "groovy",
-  "content": "repository.createMavenProxy('spring-milestone', 'http://repo.spring.io/milestone/')"
-}

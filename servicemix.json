@@ -1,7 +1,0 @@
-{
-  "name": "servicemix",
-  "type": "groovy",
-  "content": "repository.createMavenProxy('servicemix', 'http://svn.apache.org/repos/asf/servicemix/m2-repo/')"
-}
-
-

@@ -1,5 +1,0 @@
-{
-  "name": "fuse",
-  "type": "groovy",
-  "content": "repository.createMavenProxy('fuse', 'https://repository.jboss.org/nexus/content/repositories/fs-releases/')"
-}

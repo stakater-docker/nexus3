@@ -1,45 +1,24 @@
-# Using the docker-nexus3 Dockerfile, removing VOLUME to run on OpenShift
-# Until we have initContainers in Kubernetes 1.4 we have to use a custom script to configure nexus after starting
-FROM fabric8/java-centos-openjdk8-jre
+# https://github.com/sonatype/docker-nexus3
+# https://hub.docker.com/r/sonatype/nexus3
+FROM sonatype/nexus3:3.28.1
 
-ENV NEXUS_DATA /nexus-data
+ENV NEXUS_PLUGINS ${NEXUS_HOME}/system
 
-ENV NEXUS_VERSION 3.0.2-02
+# https://github.com/flytreeleft/nexus3-keycloak-plugin
+ENV KEYCLOAK_PLUGIN_VERSION 0.4.1-SNAPSHOT
+# The release name in the release page: https://github.com/flytreeleft/nexus3-keycloak-plugin/releases
+ENV KEYCLOAK_PLUGIN_RELEASE_NAME 0.4.1-prev1-SNAPSHOT
+ENV KEYCLOAK_PLUGIN /org/github/flytreeleft/nexus3-keycloak-plugin/${KEYCLOAK_PLUGIN_VERSION}/nexus3-keycloak-plugin-${KEYCLOAK_PLUGIN_VERSION}
 
-RUN yum install -y \
-  curl tar \
-  && yum clean all
+USER root
 
-# install nexus
-RUN mkdir -p /opt/sonatype/nexus \
-  && curl --fail --silent --location --retry 3 \
-    https://download.sonatype.com/nexus/3/nexus-${NEXUS_VERSION}-unix.tar.gz \
-  | gunzip \
-  | tar x -C /opt/sonatype/nexus --strip-components=1 nexus-${NEXUS_VERSION} \
-  && chown -R root:root /opt/sonatype/nexus
+ADD https://github.com/flytreeleft/nexus3-keycloak-plugin/releases/download/${KEYCLOAK_PLUGIN_RELEASE_NAME}/nexus3-keycloak-plugin-${KEYCLOAK_PLUGIN_VERSION}.jar \
+     ${NEXUS_PLUGINS}${KEYCLOAK_PLUGIN}.jar
 
-## configure nexus runtime env
-RUN sed \
-    -e "s|karaf.home=.|karaf.home=/opt/sonatype/nexus|g" \
-    -e "s|karaf.base=.|karaf.base=/opt/sonatype/nexus|g" \
-    -e "s|karaf.etc=etc|karaf.etc=/opt/sonatype/nexus/etc|g" \
-    -e "s|java.util.logging.config.file=etc|java.util.logging.config.file=/opt/sonatype/nexus/etc|g" \
-    -e "s|karaf.data=data|karaf.data=${NEXUS_DATA}|g" \
-    -e "s|java.io.tmpdir=data/tmp|java.io.tmpdir=${NEXUS_DATA}/tmp|g" \
-    -i /opt/sonatype/nexus/bin/nexus.vmoptions
+RUN chmod 644 ${NEXUS_PLUGINS}${KEYCLOAK_PLUGIN}.jar
+RUN echo "reference\:file\:${KEYCLOAK_PLUGIN}.jar = 200" >> ${NEXUS_HOME}/etc/karaf/startup.properties
 
-RUN useradd -r -u 200 -m -c "nexus role account" -d ${NEXUS_DATA} -s /bin/false nexus
-
-ENV EXTRA_JAVA_OPTS ""
-
-EXPOSE 8081
-
-ADD *.json /opt/sonatype/nexus/
-ADD postStart.sh /opt/sonatype/nexus/
-
-RUN chown nexus:nexus /opt/sonatype/nexus/
+# setup permissions
+RUN chown nexus:nexus -R /opt/sonatype/nexus
 
 USER nexus
-WORKDIR /opt/sonatype/nexus
-
-CMD bin/nexus run

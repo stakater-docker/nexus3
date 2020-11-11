@@ -1,5 +1,0 @@
-{
-  "name": "npm-internal",
-  "type": "groovy",
-  "content": "repository.createNpmHosted('npm-internal')"
-}

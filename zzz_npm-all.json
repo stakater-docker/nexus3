@@ -1,5 +1,0 @@
-{
-  "name": "zzz_npm-all",
-  "type": "groovy",
-  "content": "repository.createNpmGroup('npm-all', ['npmjs','npm-internal'])"
-}
