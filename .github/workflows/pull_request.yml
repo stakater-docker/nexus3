@@ -20,7 +20,7 @@ jobs:
       id: generate_tag
       run: |
         sha=${{ github.event.pull_request.head.sha }}
-        tag="SNAPSHOT-PR-${{ github.event.pull_request.number }}-${sha:0:8}"
+        tag="3.38.0-keycloak_plugin0.5.0-${{ github.event.pull_request.number }}"
         echo "##[set-output name=GIT_TAG;]$(echo ${tag})"
 
     - name: Set up QEMU
@@ -37,7 +37,7 @@ jobs:
 
     - name: Generate image repository path
       run: |
-        echo IMAGE_REPOSITORY=$(echo stakater/kubectl-helm | tr '[:upper:]' '[:lower:]') >> $GITHUB_ENV
+        echo IMAGE_REPOSITORY=$(echo stakater/nexus3 | tr '[:upper:]' '[:lower:]') >> $GITHUB_ENV
 
     - name: Build and push
       uses: docker/build-push-action@v2
