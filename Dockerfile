@@ -1,11 +1,11 @@
 # https://github.com/sonatype/docker-nexus3
 # https://hub.docker.com/r/sonatype/nexus3
-FROM sonatype/nexus3:3.37.3
+FROM sonatype/nexus3:3.38.0
 
 ENV NEXUS_PLUGINS ${NEXUS_HOME}/system
 
 # https://github.com/flytreeleft/nexus3-keycloak-plugin
-ENV KEYCLOAK_PLUGIN_VERSION v0.5.0
+ENV KEYCLOAK_PLUGIN_VERSION 0.5.0
 # The release name in the release page: https://github.com/flytreeleft/nexus3-keycloak-plugin/releases
 ENV KEYCLOAK_PLUGIN_RELEASE_NAME v0.5.0
 ENV KEYCLOAK_PLUGIN /org/github/flytreeleft/nexus3-keycloak-plugin/${KEYCLOAK_PLUGIN_VERSION}/nexus3-keycloak-plugin-${KEYCLOAK_PLUGIN_VERSION}
