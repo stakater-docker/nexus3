@@ -4,7 +4,11 @@ on:
   pull_request:
     branches:
       - main
-      
+
+env:
+  NEXUS_VERSION: 3.38.0
+  KEYCLOAK_PLUGIN_VERSION: 0.5.0
+
 jobs:
   build:
     runs-on: ubuntu-latest 
@@ -20,7 +24,7 @@ jobs:
       id: generate_tag
       run: |
         sha=${{ github.event.pull_request.head.sha }}
-        tag="3.38.0-keycloak_plugin0.5.0-${{ github.event.pull_request.number }}"
+        tag="SNAPSHOT-PR-${{ env.NEXUS_VERSION }}-keycloak_plugin${{ env.KEYCLOAK_PLUGIN_VERSION }}-${{ github.event.pull_request.number }}"
         echo "##[set-output name=GIT_TAG;]$(echo ${tag})"
 
     - name: Set up QEMU
