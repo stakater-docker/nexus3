@@ -3,7 +3,7 @@ name: Push
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   build:
@@ -22,7 +22,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         WITH_V: true
-        RELEASE_BRANCHES: main
+        RELEASE_BRANCHES: master
         DEFAULT_BUMP: patch
         DRY_RUN: true
 
