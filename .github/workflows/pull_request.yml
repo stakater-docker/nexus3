@@ -24,7 +24,7 @@ jobs:
       id: generate_tag
       run: |
         sha=${{ github.event.pull_request.head.sha }}
-        tag="SNAPSHOT-PR-${{ env.NEXUS_VERSION }}-keycloak_plugin${{ env.KEYCLOAK_PLUGIN_VERSION }}-${{ github.event.pull_request.number }}-${{sha:0:8}}"
+        tag="SNAPSHOT-PR-${{ env.NEXUS_VERSION }}-keycloak_plugin${{ env.KEYCLOAK_PLUGIN_VERSION }}-${{ github.event.pull_request.number }}-${sha:0:4}"
         echo "##[set-output name=GIT_TAG;]$(echo ${tag})"
 
     - name: Set up QEMU
@@ -64,7 +64,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.STAKATER_GITHUB_TOKEN }}
       with:
-        message: '@${{ github.actor }} Image is available for testing. `docker pull ${{ env.IMAGE_REPOSITORY }}:SNAPSHOT-PR-${{ env.NEXUS_VERSION }}-keycloak_plugin${{ env.KEYCLOAK_PLUGIN_VERSION }}-${{ github.event.pull_request.number }}-${{sha:0:8}}`'
+        message: '@${{ github.actor }} Image is available for testing. `docker pull ${{ env.IMAGE_REPOSITORY }}:SNAPSHOT-PR-${{ env.NEXUS_VERSION }}-keycloak_plugin${{ env.KEYCLOAK_PLUGIN_VERSION }}-${{ github.event.pull_request.number }}-${sha:0:4}`'
         allow-repeats: false
 
     - name: Notify Failure
