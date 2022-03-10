@@ -1,5 +1,8 @@
 # https://github.com/sonatype/docker-nexus3
 # https://hub.docker.com/r/sonatype/nexus3
+ARG NEXUS_VERSION
+ARG KEYCLOAK_PLUGIN_VERSION
+ARG KEYCLOAK_PLUGIN_RELEASE_NAME
 FROM sonatype/nexus3:${NEXUS_VERSION}
 
 ENV NEXUS_PLUGINS ${NEXUS_HOME}/system
