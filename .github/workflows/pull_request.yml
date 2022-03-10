@@ -64,7 +64,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.STAKATER_GITHUB_TOKEN }}
       with:
-        message: '@${{ github.actor }} Image is available for testing. `docker pull ${{ secrets.STAKATER_DOCKERHUB_USERNAME }}/nexus3:${{ steps.generate_tag.outputs.GIT_TAG }}`'
+        message: '@${{ github.actor }} Image is available for testing. `docker pull ${{ env.IMAGE_REPOSITORY }}/nexus3:SNAPSHOT-PR-${{ env.NEXUS_VERSION }}-keycloak_plugin${{ env.KEYCLOAK_PLUGIN_VERSION }}-${{ github.event.pull_request.number }}`'
         allow-repeats: false
 
     - name: Notify Failure
