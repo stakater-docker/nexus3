@@ -43,7 +43,10 @@ jobs:
         file: ${{ env.DOCKER_FILE_PATH  }}
         pull: true
         push: true
-        build-args: BUILD_PARAMETERS=${{ env.BUILD_PARAMETERS }}
+        build-args: |
+          NEXUS_VERSION=${{env.NEXUS_VERSION}}
+          KEYCLOAK_PLUGIN_VERSION=${{env.KEYCLOAK_PLUGIN_VERSION}}
+          KEYCLOAK_PLUGIN_RELEASE_NAME=${{env.KEYCLOAK_PLUGIN_RELEASE_NAME}}
         cache-to: type=inline
         tags: |
           ${{ env.IMAGE_REPOSITORY }}:${{ steps.generate_tag.outputs.new_tag }}
